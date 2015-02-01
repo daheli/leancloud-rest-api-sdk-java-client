@@ -18,16 +18,10 @@ public class LCClient {
     private static String key = "5989xh78ysth4e72b4qxb02hvgir8rujw5synam3lwi8ljvu";
 
 
-    public static void main(String[] args) throws Exception {
-        LCClient client = new LCClient(id, key);
-        client.test();
-    }
-
     public LCClient(String id, String key) {
         this.id = id;
         this.key = key;
     }
-
 
 
     public void test() throws APIException {
