@@ -1,8 +1,13 @@
 package cn.leancloud.api.model;
 
 import cn.leancloud.api.http.ResponseWrapper;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import com.google.gson.*;
+
+import java.lang.reflect.Type;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.TimeZone;
 
 /**
  * Created with IntelliJ IDEA.
@@ -12,7 +17,7 @@ import com.google.gson.GsonBuilder;
  * To change this template use File | Settings | File Templates.
  */
 public class BaseModel {
-    protected static Gson _gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
+    protected static Gson _gson = new GsonBuilder().registerTypeAdapter(Date.class, new DateSerializerUtil()).excludeFieldsWithoutExposeAnnotation().create();
     private ResponseWrapper responseWrapper;
 
     public static <T extends BaseModel> T fromResponse(
@@ -42,5 +47,27 @@ public class BaseModel {
     public String toString() {
         return _gson.toJson(this);
     }
+
+    private static class DateSerializerUtil implements JsonSerializer<Date>, JsonDeserializer<Date> {
+
+        @Override
+        public JsonElement serialize(Date date, Type type,
+                                     JsonSerializationContext context) {
+            return new JsonPrimitive(date.getTime());
+        }
+
+        @Override
+        public Date deserialize(JsonElement jsonElement, Type type, JsonDeserializationContext jsonDeserializationContext) throws JsonParseException {
+            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+            df.setTimeZone(TimeZone.getTimeZone("UTC"));
+            try {
+                return df.parse(jsonElement.getAsJsonPrimitive().getAsString());
+            } catch (ParseException e) {
+                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            }
+            return null;
+        }
+    }
+
 
 }
