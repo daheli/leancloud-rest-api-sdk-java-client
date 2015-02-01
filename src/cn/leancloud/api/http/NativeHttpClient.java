@@ -143,6 +143,7 @@ public class NativeHttpClient implements IHttpClient {
                 }
                 br.close();
                 wrapper.responseContent = sb.toString();
+                wrapper.responseCode = 200;
             } else if (status > 200 && status < 400) {
                 LOG.warn("Normal response but unexpected - responseCode:" + status + ", responseContent:" + responseContent);
 

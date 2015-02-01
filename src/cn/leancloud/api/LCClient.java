@@ -4,6 +4,10 @@ package cn.leancloud.api;
 import cn.leancloud.api.exception.APIException;
 import cn.leancloud.api.http.NativeHttpClient;
 import cn.leancloud.api.http.ResponseWrapper;
+import com.google.gson.Gson;
+import org.apache.log4j.Logger;
+
+import java.util.Map;
 
 /**
  * Created with IntelliJ IDEA.
@@ -13,28 +17,24 @@ import cn.leancloud.api.http.ResponseWrapper;
  * To change this template use File | Settings | File Templates.
  */
 public class LCClient {
+    private static final Logger LOG = Logger.getLogger(LCClient.class);
     public final static String API_URL = "https://leancloud.cn/1.1/installations";
-    private static String id = "yk1t19sy6qogm4ekebuc9bcq20dk65ph6gdzv2d4xzl955ci";
-    private static String key = "5989xh78ysth4e72b4qxb02hvgir8rujw5synam3lwi8ljvu";
+    private String id;
+    private String key;
+    private NativeHttpClient client;
 
 
     public LCClient(String id, String key) {
         this.id = id;
         this.key = key;
+        client = new NativeHttpClient(id, key);
     }
 
 
-    public void test() throws APIException {
-        NativeHttpClient client = new NativeHttpClient(id, key);
-        ResponseWrapper res = client.sendPost(API_URL, "{\n" +
-                "   \t\t\"deviceType\": \"ios\",\n" +
-                "        \"deviceToken\": \"0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef\",\n" +
-                "        \"channels\": [\n" +
-                "          \"\"\n" +
-                "        ]\n" +
-                "      }");
-        System.out.println(res);
-
+    public ResponseWrapper post(Map data) throws APIException {
+        String contont = new Gson().toJson(data);
+        LOG.debug("post content:" + contont);
+        return client.sendPost(API_URL, contont);
     }
 
 
