@@ -8,6 +8,8 @@ import cn.leancloud.api.model.LCInstallation;
 import com.google.gson.Gson;
 import org.apache.log4j.Logger;
 
+import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -21,18 +23,24 @@ public class LCClient {
     private static final Logger LOG = Logger.getLogger(LCClient.class);
     public final static String API_URL = "https://leancloud.cn/1.1/";
     public final static String MODULE_INSTALLATIONS_PATH = "installations";
-
+    public final static String MODULE_PUSH_PATH = "push";
 
     private String id;
     private String key;
     private NativeHttpClient client;
-
+    private boolean apnsProduction = false;
 
     public LCClient(String id, String key) {
+        this(id, key, false);
+    }
+
+    public LCClient(String id, String key, boolean apnsProduction) {
         this.id = id;
         this.key = key;
+        this.apnsProduction = apnsProduction;
         client = new NativeHttpClient(id, key);
     }
+
 
     public ResponseWrapper post(String path, Map data) throws APIException {
         String url = API_URL + path;
@@ -61,6 +69,27 @@ public class LCClient {
     public LCInstallation installationsCreate(Map data) throws APIException {
         ResponseWrapper res = post(MODULE_INSTALLATIONS_PATH, data);
         return LCInstallation.fromResponse(res, LCInstallation.class);
+    }
+
+    public void pushIosMessageWithInstallationId(String alert, String installationId) throws APIException {
+        Map map = new LinkedHashMap(); //should move to payload
+        if (apnsProduction) {
+            map.put("prod", "prod");
+        } else {
+            map.put("prod", "dev");
+        }
+
+        Map data = new LinkedHashMap(); //should move to payload
+        data.put("alert", alert);
+        map.put("data", data);
+
+        Map where = new LinkedHashMap(); //should move to payload
+        where.put("installationId", installationId);
+        map.put("where", where);
+
+        ResponseWrapper res = post(MODULE_PUSH_PATH, map);
+        LOG.debug(res.responseContent);
+//        return LCInstallation.fromResponse(res, LCInstallation.class);
     }
 
 

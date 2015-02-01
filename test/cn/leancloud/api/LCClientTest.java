@@ -2,6 +2,7 @@ package cn.leancloud.api;
 
 import cn.leancloud.api.model.LCInstallation;
 import org.apache.log4j.Logger;
+import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -21,10 +22,15 @@ public class LCClientTest {
 
     private static String id = "yk1t19sy6qogm4ekebuc9bcq20dk65ph6gdzv2d4xzl955ci";
     private static String key = "5989xh78ysth4e72b4qxb02hvgir8rujw5synam3lwi8ljvu";
+    protected LCClient client;
+
+    @Before
+    public void before() {
+        client = new LCClient(id, key, false);
+    }
 
     @Test
     public void installation() throws Exception {
-        LCClient client = new LCClient(id, key);
         Map data = new HashMap();
         data.put("deviceType", "ios");
         data.put("deviceToken", "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef");
@@ -34,7 +40,11 @@ public class LCClientTest {
 
         LCInstallation installation = client.installationsCreate(data);
         LOG.debug(installation);
+    }
 
 
+    @Test
+    public void push() throws Exception {
+        client.pushIosMessageWithInstallationId("hello test world...", "54cdf184e4b04e30619db843");
     }
 }
