@@ -13,7 +13,7 @@ import java.util.List;
  * Time: 下午1:46
  * To change this template use File | Settings | File Templates.
  */
-public class Installation extends BaseModel {
+public class LCInstallation extends BaseModel {
     @Expose
     private String deviceType;
     @Expose

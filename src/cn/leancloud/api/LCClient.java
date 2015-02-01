@@ -4,7 +4,7 @@ package cn.leancloud.api;
 import cn.leancloud.api.exception.APIException;
 import cn.leancloud.api.http.NativeHttpClient;
 import cn.leancloud.api.http.ResponseWrapper;
-import cn.leancloud.api.model.Installation;
+import cn.leancloud.api.model.LCInstallation;
 import com.google.gson.Gson;
 import org.apache.log4j.Logger;
 
@@ -34,16 +34,33 @@ public class LCClient {
         client = new NativeHttpClient(id, key);
     }
 
-    public ResponseWrapper post(String url, Map data) throws APIException {
+    public ResponseWrapper post(String path, Map data) throws APIException {
+        String url = API_URL + path;
         String contont = new Gson().toJson(data);
         LOG.debug("post content:" + contont);
         return client.sendPost(url, contont);
     }
 
-    public Installation installationsCreate(Map data) throws APIException {
-        String url = API_URL + MODULE_INSTALLATIONS_PATH;
-        ResponseWrapper res = post(url, data);
-        return Installation.fromResponse(res, Installation.class);
+    public ResponseWrapper put(String path, Map data) throws APIException {
+        String url = API_URL + path;
+        String contont = new Gson().toJson(data);
+        LOG.debug("put content:" + contont);
+        return client.sendPost(url, contont);
+    }
+
+    public ResponseWrapper get(String path) throws APIException {
+        String url = API_URL + path;
+        return client.sendGet(url);
+    }
+
+    public ResponseWrapper delete(String path) throws APIException {
+        String url = API_URL + path;
+        return client.sendDelete(url);
+    }
+
+    public LCInstallation installationsCreate(Map data) throws APIException {
+        ResponseWrapper res = post(MODULE_INSTALLATIONS_PATH, data);
+        return LCInstallation.fromResponse(res, LCInstallation.class);
     }
 
 

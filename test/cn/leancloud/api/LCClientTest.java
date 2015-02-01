@@ -1,6 +1,6 @@
 package cn.leancloud.api;
 
-import cn.leancloud.api.model.Installation;
+import cn.leancloud.api.model.LCInstallation;
 import org.apache.log4j.Logger;
 import org.junit.Test;
 
@@ -32,7 +32,7 @@ public class LCClientTest {
         List<String> channels = new ArrayList<String>();
         data.put("channels", channels);
 
-        Installation installation = client.installationsCreate(data);
+        LCInstallation installation = client.installationsCreate(data);
         LOG.debug(installation);
 
 
