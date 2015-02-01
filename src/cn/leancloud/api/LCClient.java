@@ -84,7 +84,7 @@ public class LCClient {
         map.put("data", data);
 
         Map where = new LinkedHashMap(); //should move to payload
-        where.put("installationId", installationId);
+        where.put("deviceToken", installationId);
         map.put("where", where);
 
         ResponseWrapper res = post(MODULE_PUSH_PATH, map);
