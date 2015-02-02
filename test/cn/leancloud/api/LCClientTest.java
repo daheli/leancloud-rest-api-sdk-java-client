@@ -1,5 +1,6 @@
 package cn.leancloud.api;
 
+import cn.leancloud.api.model.BaseResult;
 import cn.leancloud.api.model.LCInstallation;
 import org.apache.log4j.Logger;
 import org.junit.Before;
@@ -45,6 +46,7 @@ public class LCClientTest {
 
     @Test
     public void push() throws Exception {
-        client.pushIosMessageWithInstallationId("hello test world...", "1fb422a0a46820429084d6cb5f49f90fa71a5e497223090b6e27a67941949aee");
+        BaseResult result = client.pushIosMessageWithInstallationId("hello test world...", "54cdf184e4b04e30619db843");
+        LOG.debug(result);
     }
 }

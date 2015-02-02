@@ -2,6 +2,7 @@ package cn.leancloud.api.model;
 
 import cn.leancloud.api.http.ResponseWrapper;
 import com.google.gson.*;
+import com.google.gson.annotations.Expose;
 
 import java.lang.reflect.Type;
 import java.text.ParseException;
@@ -16,11 +17,19 @@ import java.util.TimeZone;
  * Time: 下午1:46
  * To change this template use File | Settings | File Templates.
  */
-public class BaseModel {
+public class BaseResult {
+    @Expose
+    private Date createdAt;
+    @Expose
+    private Date updatedAt;
+    @Expose
+    private String objectId;
+
+
     protected static Gson _gson = new GsonBuilder().registerTypeAdapter(Date.class, new DateSerializerUtil()).excludeFieldsWithoutExposeAnnotation().create();
     private ResponseWrapper responseWrapper;
 
-    public static <T extends BaseModel> T fromResponse(
+    public static <T extends BaseResult> T fromResponse(
             ResponseWrapper responseWrapper, Class<T> clazz) {
         T result = null;
 
@@ -69,5 +78,29 @@ public class BaseModel {
         }
     }
 
+
+    public Date getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public Date getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(Date updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+
+    public String getObjectId() {
+        return objectId;
+    }
+
+    public void setObjectId(String objectId) {
+        this.objectId = objectId;
+    }
 
 }
