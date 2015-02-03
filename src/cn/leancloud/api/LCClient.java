@@ -93,9 +93,4 @@ public class LCClient {
         return BaseResult.fromResponse(res, BaseResult.class);
     }
 
-
-//    public BaseResult push(Map data, String objectId) throws APIException {
-//
-//    }
-
-    }
+}
