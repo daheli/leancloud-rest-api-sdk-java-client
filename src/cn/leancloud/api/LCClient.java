@@ -6,6 +6,7 @@ import cn.leancloud.api.http.NativeHttpClient;
 import cn.leancloud.api.http.ResponseWrapper;
 import cn.leancloud.api.model.BaseResult;
 import cn.leancloud.api.model.LCInstallation;
+import cn.leancloud.api.push.PushPayload;
 import com.google.gson.Gson;
 import org.apache.log4j.Logger;
 
@@ -72,27 +73,29 @@ public class LCClient {
         return LCInstallation.fromResponse(res, LCInstallation.class);
     }
 
-    public BaseResult pushIosMessageWithInstallationId(String alert, String objectId) throws APIException {
-        Map map = new LinkedHashMap(); //should move to payload
-        if (apnsProduction) {
-            map.put("prod", "prod");
-        } else {
-            map.put("prod", "dev");
-        }
+    public BaseResult sendNotificationAlertWithObjectId(String alert, String objectId) throws APIException {
+        PushPayload payload = PushPayload.newBuilder()
+                .setProd(apnsProduction)
+                .setAlert(alert)
+                .setObjectId(objectId)
+                .build();
+        ResponseWrapper res = post(MODULE_PUSH_PATH, payload.toMap());
+        return BaseResult.fromResponse(res, BaseResult.class);
+    }
 
-        Map data = new LinkedHashMap(); //should move to payload
-        data.put("alert", alert);
-        data.put("sound", "default");
-        map.put("data", data);
-
-        Map where = new LinkedHashMap(); //should move to payload
-        where.put("objectId", objectId);
-        map.put("where", where);
-
-        ResponseWrapper res = post(MODULE_PUSH_PATH, map);
-        LOG.debug(res.responseContent);
+    public BaseResult sendNotificationObjectId(Map data, String objectId) throws APIException {
+        PushPayload payload = PushPayload.newBuilder()
+                .setProd(apnsProduction)
+                .setData(data)
+                .setObjectId(objectId)
+                .build();
+        ResponseWrapper res = post(MODULE_PUSH_PATH, payload.toMap());
         return BaseResult.fromResponse(res, BaseResult.class);
     }
 
 
-}
+//    public BaseResult push(Map data, String objectId) throws APIException {
+//
+//    }
+
+    }

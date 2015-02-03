@@ -24,29 +24,54 @@ public class LCClientTest {
     private static String id = "yk1t19sy6qogm4ekebuc9bcq20dk65ph6gdzv2d4xzl955ci";
     private static String key = "5989xh78ysth4e72b4qxb02hvgir8rujw5synam3lwi8ljvu";
     protected LCClient client;
+    private String token;
+    private String objectId;
 
     @Before
     public void before() {
         client = new LCClient(id, key, false);
+
+        token = "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef";
+        objectId = "54cf156de4b05f545fadba48";
     }
 
     @Test
     public void installation() throws Exception {
         Map data = new HashMap();
         data.put("deviceType", "ios");
-        data.put("deviceToken", "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef");
-
+        data.put("deviceToken", token);
         List<String> channels = new ArrayList<String>();
         data.put("channels", channels);
-
         LCInstallation installation = client.installationsCreate(data);
         LOG.debug(installation);
     }
 
 
     @Test
-    public void push() throws Exception {
-        BaseResult result = client.pushIosMessageWithInstallationId("hello test world...", "54cdf184e4b04e30619db843");
+    public void send_notification_alert() throws Exception {
+        BaseResult result = client.sendNotificationAlertWithObjectId("hello test world...", objectId);
+        LOG.debug(result);
+    }
+
+    /**
+    {
+        aps =     {
+            alert = "show me";
+            sound = default;
+        };
+        type = 001;
+        url = "http://leancloud.cn";
+    }
+    **/
+    @Test
+    public void send_notification_extras() throws Exception {
+        Map data = new HashMap();
+        data.put("alert", "show me");
+        data.put("sound","default");
+        data.put("url","http://leancloud.cn");
+        data.put("type","001");
+
+        BaseResult result = client.sendNotificationObjectId(data, objectId);
         LOG.debug(result);
     }
 }
