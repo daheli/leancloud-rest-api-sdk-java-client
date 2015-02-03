@@ -10,8 +10,6 @@ import cn.leancloud.api.push.PushPayload;
 import com.google.gson.Gson;
 import org.apache.log4j.Logger;
 
-import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
