@@ -57,6 +57,7 @@ public class LCClientTest {
     {
         aps =     {
             alert = "show me";
+            badge = 1
             sound = default;
         };
         type = 001;
@@ -70,6 +71,7 @@ public class LCClientTest {
         data.put("sound","default");
         data.put("url","http://leancloud.cn");
         data.put("type","001");
+        data.put("badge", "Increment");
 
         BaseResult result = client.sendNotificationObjectId(data, objectId);
         LOG.debug(result);
