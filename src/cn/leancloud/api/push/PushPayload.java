@@ -104,6 +104,7 @@ public class PushPayload implements PushModel {
             }
             data.put("alert", alert);
             data.put("sound", "default");
+            data.put("badge", "Increment");
             return this;
         }
 
