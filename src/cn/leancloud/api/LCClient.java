@@ -45,14 +45,12 @@ public class LCClient {
     public ResponseWrapper post(String path, Map data) throws APIException {
         String url = API_URL + path;
         String contont = new Gson().toJson(data);
-        LOG.debug("post content:" + contont);
         return client.sendPost(url, contont);
     }
 
     public ResponseWrapper put(String path, Map data) throws APIException {
         String url = API_URL + path;
         String contont = new Gson().toJson(data);
-        LOG.debug("put content:" + contont);
         return client.sendPost(url, contont);
     }
 

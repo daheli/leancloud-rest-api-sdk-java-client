@@ -85,9 +85,10 @@ public class PushPayload implements PushModel {
 
         public Builder setData(Map data) {
             if (this.data != null) {
-                data.putAll(data);
+                this.data.putAll(data);
+            } else {
+                this.data = data;
             }
-            this.data = data;
             return this;
         }
 
