@@ -81,6 +81,16 @@ public class LCClient {
         return BaseResult.fromResponse(res, BaseResult.class);
     }
 
+    public BaseResult sendNotificationAlertWithObjectId(String alert, Map data, String objectId) throws APIException {
+        PushPayload payload = PushPayload.newBuilder()
+                .setProd(apnsProduction)
+                .setAlert(alert)
+                .setObjectId(objectId)
+                .build();
+        ResponseWrapper res = post(MODULE_PUSH_PATH, payload.toMap());
+        return BaseResult.fromResponse(res, BaseResult.class);
+    }
+
     public BaseResult sendNotificationObjectId(Map data, String objectId) throws APIException {
         PushPayload payload = PushPayload.newBuilder()
                 .setProd(apnsProduction)

@@ -84,6 +84,9 @@ public class PushPayload implements PushModel {
         }
 
         public Builder setData(Map data) {
+            if (this.data != null) {
+                data.putAll(data);
+            }
             this.data = data;
             return this;
         }
@@ -99,17 +102,16 @@ public class PushPayload implements PushModel {
         }
 
         public Builder setAlert(String alert) {
-            if(data == null){
+            if (data == null) {
                 data = new LinkedHashMap();
             }
             data.put("alert", alert);
             data.put("sound", "default");
-            data.put("badge", "Increment");
             return this;
         }
 
         public Builder setObjectId(String objectId) {
-            if(where == null){
+            if (where == null) {
                 where = new LinkedHashMap();
             }
             where.put("objectId", objectId);
