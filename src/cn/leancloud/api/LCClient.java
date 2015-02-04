@@ -85,6 +85,7 @@ public class LCClient {
         PushPayload payload = PushPayload.newBuilder()
                 .setProd(apnsProduction)
                 .setAlert(alert)
+                .setData(data)
                 .setObjectId(objectId)
                 .build();
         ResponseWrapper res = post(MODULE_PUSH_PATH, payload.toMap());
