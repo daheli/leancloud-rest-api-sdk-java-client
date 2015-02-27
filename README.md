@@ -34,7 +34,7 @@
 ## Push 通知 
 <https://leancloud.cn/docs/push_guide.html#使用-rest-api-推送消息>
 
-* 构建推送对象：真对某一个installation Object, 通知内容为 ALERT。
+* 构建推送对象：真对某一个Installation ObjectId, 通知内容为 ALERT。
 
 ```
     client.sendNotificationAlertWithObjectId("hello test world...", objectId);
